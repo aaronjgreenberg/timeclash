@@ -1,4 +1,4 @@
-![TimeClash](img/banner.jpg)
+![TimeClash](/img/banner.jpg)
 
 Whenever I'm trying to register for classes, I always find that one of
 the hardest parts is picking courses that don't conflict.  At best,
