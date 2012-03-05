@@ -33,7 +33,7 @@ After creating the database, create the database tables used to store
 the school and course information with the create_tables.sql script
 (you can run this script as a normal user):
 
-	shell> mysql -u aaron -p < create_tables.sql
+	shell> mysql -u aaron -p timeclash < create_tables.sql
 
 After creating the database, run the timeclash.py script to launch the
 application:
