@@ -33,10 +33,10 @@ After creating the database, run the timeclash.py script to launch the
 application:
 
 	shell> python timeclash.py
-
-If you changed the default username and/or password, run:
-
-       shell> python timeclash.py --user='new_username' --pw='new_password'
+	
+If you changed the default username or password, run this:
+	
+	shell> python timeclash.py --user='new_username' --pw='new_password'
 
 ## About
 
