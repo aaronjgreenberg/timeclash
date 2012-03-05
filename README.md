@@ -32,11 +32,11 @@ the timeclash.py script so MySQL is able to connect to the database.
 After creating the database, run the timeclash.py script to launch the
 application:
 
-	python timeclash.py
+	shell> python timeclash.py
 
 If you changed the default username and/or password, run:
 
-   python timeclash.py --user='new_username' --pw='new_password'
+        shell> python timeclash.py --user='new_username' --pw='new_password'
 
 ## About
 
