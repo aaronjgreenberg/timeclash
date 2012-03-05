@@ -1,4 +1,4 @@
-# TimeClash
+![TimeClash](img/logo.jpg)
 
 Whenever I'm trying to register for classes, I always find that one of
 the hardest parts is picking courses that don't conflict.  At best,
@@ -28,6 +28,12 @@ To create the database, you'll need to run MySQL as root.
 password 'COMP311' as defaults.  You can change those by editing the
 script, if you care, but you'll also need to pass the new values to
 the timeclash.py script so MySQL is able to connect to the database.
+
+After creating the database, create the database tables used to store
+the school and course information with the create_tables.sql script
+(you can run this script as a normal user):
+
+	shell> mysql -u aaron -p < create_tables.sql
 
 After creating the database, run the timeclash.py script to launch the
 application:
