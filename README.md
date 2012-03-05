@@ -36,7 +36,7 @@ application:
 
 If you changed the default username and/or password, run:
 
-        shell> python timeclash.py --user='new_username' --pw='new_password'
+       shell> python timeclash.py --user='new_username' --pw='new_password'
 
 ## About
 
