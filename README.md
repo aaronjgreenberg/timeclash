@@ -1,4 +1,4 @@
-![TimeClash](./img/banner.jpg)
+[![play](http://f.cl.ly/items/0M3D1T3o282g1x1C0q09/splash.png)](http://cl.ly/BOJT)
 
 Whenever I'm trying to register for classes, I always find that one of
 the hardest parts is picking courses that don't conflict.  At best,
