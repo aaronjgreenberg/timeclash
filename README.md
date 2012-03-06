@@ -1,4 +1,4 @@
-![TimeClash](./img/banner.jpg)
+[![TimeClash](http://dl.dropbox.com/u/2087618/Banners/timeclash.jpg)](http://db.tt/lov8S6kS)
 
 Whenever I'm trying to register for classes, I always find that one of
 the hardest parts is picking courses that don't conflict.  At best,
