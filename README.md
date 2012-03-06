@@ -1,5 +1,3 @@
-![TimeClash](http://i1064.photobucket.com/albums/u371/aaronjgreenberg/banner.jpg)
-
 Whenever I'm trying to register for classes, I always find that one of
 the hardest parts is picking courses that don't conflict.  At best,
 all the courses offered will be displayed on a calendar, which is
