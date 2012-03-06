@@ -46,8 +46,8 @@ If you changed the default username or password, run this:
 
 ## About
 
-I'm building this application primarily as my final project for the
-course COMP311: Foundations of Database Systems at the Hong Kong
+I originally started building this application as my final project for
+the course COMP311: Foundations of Database Systems at the Hong Kong
 Polytechnic University.  The assignment is to create any database
 application with a user interface.  I chose to create this application
 after spending a frustrating two weeks trying to organize my course
@@ -55,7 +55,7 @@ schedule at the beginning of my study abroad semester.
 
 To use this application, you can add your school to the database, and
 then populate the school with courses and some information about them,
-including the offering times. Then you can create a schedule with all
+including the offering times.  Then you can create a schedule with all
 your courses, and the application will check if any of them
 conflict. It will tell you which do, if any, and when they conflict
 and for how long.
