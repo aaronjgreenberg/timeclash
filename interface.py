@@ -21,7 +21,7 @@ from Gui import *
 # Examples
 #
 #   interface = Interface()
-#   # => <module 'Interface'>
+#   # => <__main__.Interface instance at 0x00000000>
 class Interface( Gui ):
 
     # Public: Initialize an Interface.
