@@ -28,7 +28,69 @@ class Interface( Gui ):
     def __init__( self ):
         Gui.__init__( self )
         self.title( 'TimeClash' )
-    
+        self.resizable( 0, 0 )
+        self.gr( cols = 2 )
+        self.tc_button = self.bu( text = 'Time Check',
+                                  font = ( 'fixedsys', 14 ),
+                                  width = 36,
+                                  command = self.timecheck,
+                                  state = DISABLED
+                                  )
+
+        self.edit_button = self.bu( text = 'Edit Courses or Schools',
+                                   font = ( 'fixedsys', 14 ),
+                                   width = 36,
+                                   )
+        self.endgr()
+        self.tc_bool = False
+        self.add_bool = False
+        self.timecheck()
+
+    # Public: Create the widgets that allow a user to choose schools and courses
+    # to see if they conflict.
+    #
+    # Returns nothing.
+    def timecheck( self ):
+        self.edit_button.config( state = NORMAL )
+        tc_widglist = []
+        tc_widglist.append( self.la( text = 'Please select your courses:',
+                                     font = ( 'fixedsys', 18, 'bold' ),
+                                     pady = 10 ) )
+
+        self.gr( cols = 2, background = 'black' )
+        tc_widglist.extend( [ 
+                self.mb( text = 'School',
+                         font = ( 'fixedsys', 14 ),
+                         background = 'white',
+                         width = 35,
+                         padx = 2,
+                         pady = 2,
+                         activebackground = '#737373' ),
+                self.mb( text = 'Course',
+                         font = ( 'fixedsys', 14 ),
+                         background = 'white',
+                         width = 35,
+                         padx = 2,
+                         pady = 2,
+                         activebackground = '#737373' ),
+                self.mb( text = 'School',
+                         font = ( 'fixedsys', 14 ),
+                         background = 'white',
+                         width = 35,
+                         padx = 2,
+                         pady = 2,
+                         activebackground = '#737373' ),
+                self.mb( text = 'Course',
+                         font = ( 'fixedsys', 14 ),
+                         background = 'white',
+                         width = 35,
+                         padx = 2,
+                         pady = 2,
+                         activebackground = '#737373' )
+                ] )
+                       
+        self.endgr()
+
     # Public: Run the event loop, wait for user to give input, return output.
     #
     # Returns nothing.
