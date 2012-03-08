@@ -36,6 +36,6 @@ CREATE TABLE Course (
        OfferTime3	DATETIME,
        OfferTime4	DATETIME,
        OfferTime5	DATETIME,
-       CONSTRAINT FK_SchoolID FOREIGN KEY ( SchoolID ) 
-       		  REFERENCES School( SchoolID ),
+       CONSTRAINT FK_SchoolID FOREIGN KEY ( SchoolID )
+       		  	      REFERENCES School( SchoolID ),
        CONSTRAINT PK_CourseID PRIMARY KEY ( SchoolID, CourseID ) );
