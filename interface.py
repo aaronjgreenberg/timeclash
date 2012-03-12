@@ -35,6 +35,9 @@ class Interface( Gui ):
         self.title( 'TimeClash' )
         self.resizable( 0, 0 )
 
+        self.tc_widglist = []
+        self.edit_widglist = []
+
         self.gr( cols = 2 )
         self.tc_button = self.bu( text = 'Time Check',
                                   font = ( 'fixedsys', 12 ),
@@ -44,12 +47,11 @@ class Interface( Gui ):
 
         self.edit_button = self.bu( text = 'Edit Courses or Schools',
                                     font = ( 'fixedsys', 12 ),
-                                    width = 37 )
-                                  
+                                    width = 37,
+                                    command = self.edit )
+                                      
         self.endgr()
 
-        self.tc_widglist = []
-        self.add_widglist = []
         self.timecheck()
 
     # Public: Create the widgets that allow a user to choose schools and courses
@@ -57,6 +59,9 @@ class Interface( Gui ):
     #
     # Returns nothing.
     def timecheck( self ):
+
+        self.kill_widgets( self.edit_widglist )
+
         self.tc_button.config( state = DISABLED )
         self.edit_button.config( state = NORMAL )
 
@@ -65,7 +70,7 @@ class Interface( Gui ):
                               pady = 10 )
 
 
-        self.gr( cols = 2 )
+        tc_grid = self.gr( cols = 2 )
         
         schoolbox = self.lb( font = ( 'fixedsys', 12 ),
                              width = 37 )
@@ -74,20 +79,61 @@ class Interface( Gui ):
                
         self.endgr()
 
-        course_select = self.bu( text = 'Add course',
+        select_button = self.bu( text = 'Add Course',
                                  font = ( 'fixedsys', 14 ),
                                  width = 74,
                                  pady = 5 )
 
         label_selected = self.la( text = 'Selected courses:',
-                                  font = ( 'fixedsys', 17 ),
+                                  font = ( 'fixedsys', 18 ),
                                   pady = 8 )
 
-        selected_box = self.lb( font = ( 'fixedsys', 12 ),
+        selected_box = self.lb( font = ( 'fixedsys', 14 ),
                                 width = 74,
                                 height = 5,
                                 bg = '#DEDEDE' )
-                            
+
+        delete_button = self.bu( font = ( 'fixedsys', 14 ),
+                                 width = 74,
+                                 text = 'Remove Course',
+                                 pady = 5 )
+
+        check_button = self.bu( font = ( 'fixedsys', 18 ),
+                                width = 18,
+                                text = 'Check Time',
+                                pady = 5 )
+
+        self.tc_widglist.extend( [ main_label,
+                                   tc_grid,
+                                   schoolbox,
+                                   coursebox,
+                                   select_button,
+                                   label_selected,
+                                   selected_box,
+                                   delete_button,
+                                   check_button ] )
+
+    # Public: Create the widgets that allow a user to edit the school and course
+    # options.
+    #
+    # Returns nothing.
+    def edit( self ):
+        
+        self.kill_widgets( self.tc_widglist )
+
+        self.tc_button.config( state = NORMAL )
+        self.edit_button.config( state = DISABLED )
+
+    # Public: Destroys (removes from application) all the widgets passed in the
+    # List.
+    #
+    # widget_list - A List of widgets to be destroyed.
+    #
+    # Returns nothing.
+    def kill_widgets( self, widget_list ):
+        for widget in widget_list:
+            widget.destroy()
+        print self.slaves()
 
     # Public: Run the event loop, wait for user to give input, return output.
     #
