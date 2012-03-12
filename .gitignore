@@ -1,0 +1,9 @@
+# Compiled Source Code #
+########################
+*.pyc
+
+# Auto-saved Files #
+####################
+*.py~
+*.md~
+*.sql~
