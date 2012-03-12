@@ -61,16 +61,12 @@ class Interface( Gui ):
     def timecheck( self ):
 
         self.kill_widgets( self.edit_widglist )
+        self.edit_widglist = []
 
-        self.tc_button.config( state = DISABLED )
-        self.edit_button.config( state = NORMAL )
+        self.tc_button.config( state = DISABLED, relief = SUNKEN )
+        self.edit_button.config( state = NORMAL, relief = RAISED )
 
-        main_label = self.la( text = 'Please select your courses:',
-                              font = ( 'fixedsys', 18, 'bold' ),
-                              pady = 10 )
-
-
-        tc_grid = self.gr( cols = 2 )
+        tc_grid = self.gr( cols = 2, pady = 8 )
         
         schoolbox = self.lb( font = ( 'fixedsys', 12 ),
                              width = 37 )
@@ -81,34 +77,27 @@ class Interface( Gui ):
 
         select_button = self.bu( text = 'Add Course',
                                  font = ( 'fixedsys', 14 ),
-                                 width = 74,
-                                 pady = 5 )
-
-        label_selected = self.la( text = 'Selected courses:',
-                                  font = ( 'fixedsys', 18 ),
-                                  pady = 8 )
+                                 width = 74 )
 
         selected_box = self.lb( font = ( 'fixedsys', 14 ),
                                 width = 74,
                                 height = 5,
-                                bg = '#DEDEDE' )
+                                bg = '#DEDEDE',
+                                pady = 8 )
 
         delete_button = self.bu( font = ( 'fixedsys', 14 ),
                                  width = 74,
-                                 text = 'Remove Course',
-                                 pady = 5 )
+                                 text = 'Remove Course' )
 
         check_button = self.bu( font = ( 'fixedsys', 18 ),
                                 width = 18,
                                 text = 'Check Time',
-                                pady = 5 )
+                                pady = 8 )
 
-        self.tc_widglist.extend( [ main_label,
-                                   tc_grid,
+        self.tc_widglist.extend( [ tc_grid,
                                    schoolbox,
                                    coursebox,
                                    select_button,
-                                   label_selected,
                                    selected_box,
                                    delete_button,
                                    check_button ] )
@@ -120,9 +109,10 @@ class Interface( Gui ):
     def edit( self ):
         
         self.kill_widgets( self.tc_widglist )
+        self.tc_widglist = []
 
-        self.tc_button.config( state = NORMAL )
-        self.edit_button.config( state = DISABLED )
+        self.tc_button.config( state = NORMAL, relief = RAISED )
+        self.edit_button.config( state = DISABLED, relief = SUNKEN )
 
     # Public: Destroys (removes from application) all the widgets passed in the
     # List.
@@ -133,7 +123,6 @@ class Interface( Gui ):
     def kill_widgets( self, widget_list ):
         for widget in widget_list:
             widget.destroy()
-        print self.slaves()
 
     # Public: Run the event loop, wait for user to give input, return output.
     #
