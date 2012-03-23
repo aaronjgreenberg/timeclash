@@ -36,7 +36,8 @@ class Interface( Gui ):
         self.resizable( 0, 0 )
 
         self.tc_widglist = []
-        self.edit_widglist = []
+        self.school_widglist = []
+        self.course_widglist = []
 
         self.gr( cols = 2 )
         self.tc_button = self.bu( text = 'Time Check',
@@ -48,7 +49,7 @@ class Interface( Gui ):
         self.edit_button = self.bu( text = 'Edit Courses or Schools',
                                     font = ( 'fixedsys', 12 ),
                                     width = 37,
-                                    command = self.edit )
+                                    command = self.edit_schools )
                                       
         self.endgr()
 
@@ -60,8 +61,9 @@ class Interface( Gui ):
     # Returns nothing.
     def timecheck( self ):
 
-        self.kill_widgets( self.edit_widglist )
-        self.edit_widglist = []
+        self.kill_widgets( self.school_widglist, self.course_widglist )
+        self.school_widglist = []
+        self.course_widglist = []
 
         self.tc_button.config( state = DISABLED, relief = SUNKEN )
         self.edit_button.config( state = NORMAL, relief = RAISED )
@@ -102,17 +104,118 @@ class Interface( Gui ):
                                    delete_button,
                                    check_button ] )
 
-    # Public: Create the widgets that allow a user to edit the school and course
-    # options.
+    # Public: Create the widgets that allow a user to edit the list of schools.
     #
     # Returns nothing.
-    def edit( self ):
+    def edit_schools( self ):
         
-        self.kill_widgets( self.tc_widglist )
+        self.kill_widgets( self.tc_widglist, self.course_widglist )
         self.tc_widglist = []
+        self.course_widglist = []
 
         self.tc_button.config( state = NORMAL, relief = RAISED )
         self.edit_button.config( state = DISABLED, relief = SUNKEN )
+
+        edschool_grid = self.gr( cols = 2 )
+
+        schoolbox = self.lb( font = ( 'fixedsys', 12 ),
+                           width = 54,
+                           height = 10,
+                           bg = '#DEDEDE' )
+
+        edcourse_button = self.bu( font = ( 'fixedsys', 14 ),
+                                   width = 20,
+                                   text = 'Edit Courses\nfor this\nSchool',
+                                   wraplength = 0.2,
+                                   height = 10,
+                                   command = self.edit_courses )
+
+        self.endgr()
+
+        schooladd_grid = self.gr( cols = 2 )
+
+        schoolname = StringVar()
+
+        school_name_entry = self.en( font = ( 'fixedsys', 14 ),
+                                     textvariable = schoolname,
+                                     padx = 4,
+                                     width = 50 )
+
+        schoolname.set( 'Name Of School' )
+
+        schooladd_button = self.bu( font = ( 'fixedsys', 14 ),
+                                    text = 'Add School',
+                                    width = 22,
+                                    padx = 4,
+                                    pady = 8 )
+
+        self.endgr()
+
+        updateinfo_grid = self.gr( cols = 2 )
+
+        editname_button = self.bu( font = ( 'fixedsys', 12 ),
+                                   text = 'Edit School Name',
+                                   width = 36 )
+
+        updatename_button = self.bu( font = ( 'fixedsys', 12 ),
+                                     text = 'Update Information',
+                                     width = 37 )
+
+        self.endgr()
+                                     
+        schooldel_button = self.bu( font = ( 'fixedsys', 14 ),
+                                    width = 74,
+                                    text = 'Delete Selected School',
+                                    pady = 8,
+                                    bg = '#FF0000' )
+
+        self.school_widglist.extend( [ edschool_grid,
+                                       schoolbox,
+                                       edcourse_button,
+                                       schooladd_grid,
+                                       school_name_entry,
+                                       schooladd_button,
+                                       updateinfo_grid,
+                                       editname_button,
+                                       updatename_button,
+                                       schooldel_button, ] )
+
+    # Public: Creates the widgets that allow a user to edit the list of courses
+    # for each school.
+    #
+    # Returns nothing.
+    def edit_courses( self ):
+
+        self.edit_button.config( state = NORMAL, relief = RAISED )
+
+        self.kill_widgets( self.school_widglist )
+        self.school_widglist = []
+
+        school_label = self.la( font = ( 'fixedsys', 18 ),
+                                text = "Courses For 'School Name Here'" )
+
+        coursebox = self.lb( font = ( 'fixedsys', 14 ),
+                           width = 74,
+                           height = 15,
+                           bg = '#DEDEDE' )
+
+        edschool_button_gr = self.gr( cols = 2 )
+
+        updateschool_button = self.bu( font = ( 'fixedsys', 12 ),
+                                       text = 'Update Course Information',
+                                       width = 36 )
+
+        addschool_button = self.bu( font = ( 'fixedsys', 12 ),
+                                    text = 'Add A Course',
+                                    width = 37 )
+
+        self.endgr()
+
+        self.course_widglist.extend( [ school_label,
+                                       coursebox,
+                                       edschool_button_gr,
+                                       updateschool_button,
+                                       addschool_button ] )
 
     # Public: Destroys (removes from application) all the widgets passed in the
     # List.
@@ -120,8 +223,9 @@ class Interface( Gui ):
     # widget_list - A List of widgets to be destroyed.
     #
     # Returns nothing.
-    def kill_widgets( self, widget_list ):
-        for widget in widget_list:
+    def kill_widgets( self, widget_list, second_list = [] ):
+        kill_list = widget_list + second_list
+        for widget in kill_list:
             widget.destroy()
 
     # Public: Run the event loop, wait for user to give input, return output.
