@@ -134,51 +134,45 @@ class Interface( Gui ):
 
         schooladd_grid = self.gr( cols = 2 )
 
+        schooladd_button = self.bu( font = ( 'fixedsys', 14 ),
+                                    text = 'Add School',
+                                    width = 36 )
+
+        schooled_button = self.bu( font = ( 'fixedsys', 14 ),
+                                   text = 'Edit School Information',
+                                   width = 37 )
+
+        self.endgr()
+
         schoolname = StringVar()
 
         school_name_entry = self.en( font = ( 'fixedsys', 14 ),
                                      textvariable = schoolname,
-                                     padx = 4,
+                                     padx = 10,
+                                     pady = 8,
                                      width = 50 )
 
         schoolname.set( 'Name Of School' )
 
-        schooladd_button = self.bu( font = ( 'fixedsys', 14 ),
-                                    text = 'Add School',
-                                    width = 22,
-                                    padx = 4,
-                                    pady = 8 )
-
-        self.endgr()
-
-        updateinfo_grid = self.gr( cols = 2 )
-
-        editname_button = self.bu( font = ( 'fixedsys', 12 ),
-                                   text = 'Edit School Name',
-                                   width = 36 )
-
-        updatename_button = self.bu( font = ( 'fixedsys', 12 ),
-                                     text = 'Update Information',
-                                     width = 37 )
-
-        self.endgr()
+        save_button = self.bu( font = ( 'fixedsys', 14 ),
+                               text = 'Save Information',
+                               pady = 8,
+                               width = 74 )
                                      
         schooldel_button = self.bu( font = ( 'fixedsys', 14 ),
                                     width = 74,
                                     text = 'Delete Selected School',
-                                    pady = 8,
                                     bg = '#FF0000' )
 
         self.school_widglist.extend( [ edschool_grid,
                                        schoolbox,
                                        edcourse_button,
                                        schooladd_grid,
-                                       school_name_entry,
                                        schooladd_button,
-                                       updateinfo_grid,
-                                       editname_button,
-                                       updatename_button,
-                                       schooldel_button, ] )
+                                       schooled_button,
+                                       school_name_entry,
+                                       save_button,
+                                       schooldel_button ] )
 
     # Public: Creates the widgets that allow a user to edit the list of courses
     # for each school.
@@ -199,23 +193,109 @@ class Interface( Gui ):
                            height = 15,
                            bg = '#DEDEDE' )
 
-        edschool_button_gr = self.gr( cols = 2 )
+        edcourse_button_gr = self.gr( cols = 2 )
 
-        updateschool_button = self.bu( font = ( 'fixedsys', 12 ),
+        updatecourse_button = self.bu( font = ( 'fixedsys', 12 ),
                                        text = 'Update Course Information',
                                        width = 36 )
 
-        addschool_button = self.bu( font = ( 'fixedsys', 12 ),
+        addcourse_button = self.bu( font = ( 'fixedsys', 12 ),
                                     text = 'Add A Course',
                                     width = 37 )
 
         self.endgr()
 
+        course_entry_grid = self.gr ( cols = 2 )
+        
+        course_number = StringVar()
+        course_name = StringVar()
+
+        courseno_entry = self.en( font = ( 'fixedsys', 14 ),
+                                  textvariable = course_number,
+                                  padx = 5,
+                                  pady = 8,
+                                  width = 15 )
+
+        coursename_entry = self.en( font = ( 'fixedsys', 14 ),
+                                    textvariable = course_name,
+                                    padx = 5,
+                                    pady = 8,
+                                    width = 57 )
+
+        course_number.set( 'Course Number' )
+        course_name.set( 'Name Of Course' )
+
+        self.endgr()
+
+        offerlabel_grid = self.gr( cols = 4 )
+
+        placehold = self.fr()
+        self.endfr()
+
+        day_label = self.la( font = ( 'fixedsys', 14 ),
+                             text = 'Day' )
+
+        start_label = self.la( font = ( 'fixedsys', 14 ),
+                               text = 'Start Time' )
+
+        end_label = self.la( font = ( 'fixedsys', 14 ),
+                             text = 'End Time' )
+
+        for i in xrange( 1, 6 ):
+
+            time_label1 = self.la( font = ( "fixedsys", 14 ),
+                                   text = "Offer Time 1",
+                                   pady = 3,
+                                   padx = 5 )
+
+            day_box1 = self.sp( values = ( "M", "T", "W", "Th", "F", "S", "Su" ),
+                                width = 4 )
+        
+            self.gr( cols = 2, padx = 145 )
+        
+            starthr1 = self.sp( values = range( 24 ),
+                                width = 4 )
+
+            startmin1 = self.sp( values = range( 0, 60, 5 ),
+                                 width = 4 )
+
+            self.endgr()
+
+            self.gr( cols = 2 )
+
+            endhr1 = self.sp( values = range( 24 ),
+                              width = 4 )
+
+            endmin1 = self.sp( values = range( 0, 60, 5 ),
+                               width = 4 )
+
+            self.endgr()
+
+        self.endgr()
+
+        course_save_button = self.bu( font = ( 'fixedsys', 14 ),
+                                      text = 'Save Information',
+                                      pady = 8,
+                                      width = 74 )
+
+        course_remove_button = self.bu( font = ( 'fixedsys', 14 ),
+                                        text = 'Delete This Course',
+                                        bg = '#FF0000',
+                                        width = 74 )
+
         self.course_widglist.extend( [ school_label,
                                        coursebox,
-                                       edschool_button_gr,
-                                       updateschool_button,
-                                       addschool_button ] )
+                                       edcourse_button_gr,
+                                       updatecourse_button,
+                                       addcourse_button,
+                                       course_entry_grid,
+                                       courseno_entry,
+                                       coursename_entry,
+                                       offerlabel_grid,
+                                       placehold,
+                                       day_label,
+                                       start_label,
+                                       end_label ] )
 
     # Public: Destroys (removes from application) all the widgets passed in the
     # List.
