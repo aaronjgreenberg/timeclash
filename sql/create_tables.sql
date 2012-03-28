@@ -21,21 +21,24 @@ By: Aaron Greenberg
 When: March 2012
 */
 
-CREATE TABLE School (
+CREATE TABLE IF NOT EXISTS School (
        SchoolID		INT NOT NULL AUTO_INCREMENT,
        SchoolName 	VARCHAR( 255 ),
        CONSTRAINT PK_SchoolID PRIMARY KEY ( SchoolID ) );
 
-CREATE TABLE Course (
+CREATE TABLE IF NOT EXISTS Course (
        CourseID		INT NOT NULL AUTO_INCREMENT,
        SchoolID		INT NOT NULL,
        CourseName	VARCHAR( 255 ),
        CourseNumber	VARCHAR( 255 ),
-       OfferTime1	DATETIME,
-       OfferTime2	DATETIME,
-       OfferTime3	DATETIME,
-       OfferTime4	DATETIME,
-       OfferTime5	DATETIME,
+       OfferTime1S	DATETIME,
+       OfferTime2S	DATETIME,
+       OfferTime3S	DATETIME,
+       OfferTime4S	DATETIME,
+       OfferTime1E	DATETIME,
+       OfferTime2E	DATETIME,
+       OfferTime3E	DATETIME,
+       OfferTime4E	DATETIME,
        CONSTRAINT FK_SchoolID FOREIGN KEY ( SchoolID )
        		  	      REFERENCES School( SchoolID ),
-       CONSTRAINT PK_CourseID PRIMARY KEY ( SchoolID, CourseID ) );
+       CONSTRAINT PK_CourseID PRIMARY KEY ( CourseID, SchoolID ) );
