@@ -7,3 +7,7 @@
 *.py~
 *.md~
 *.sql~
+
+# Unecessary Scripts/Files #
+############################
+tablify.py*
