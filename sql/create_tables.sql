@@ -40,5 +40,6 @@ CREATE TABLE IF NOT EXISTS Course (
        OfferTime4S	DATETIME,
        OfferTime4E	DATETIME,
        CONSTRAINT FK_SchoolID FOREIGN KEY ( SchoolID )
-       		  	      REFERENCES School( SchoolID ),
+       		  	      REFERENCES School( SchoolID )
+			      ON DELETE CASCADE,
        CONSTRAINT PK_CourseID PRIMARY KEY ( CourseID, SchoolID ) );

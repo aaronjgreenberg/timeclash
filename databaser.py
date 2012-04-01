@@ -70,10 +70,63 @@ class Databaser(object):
     #
     # Returns a List of Strings representing all the courses that are offered by
     # the school in school_name.
-    def get_courses_by_school(self, school_name):
+    def get_coursenames_by_school(self, school_name):
         database_command = """SELECT CourseName FROM School, Course WHERE SchoolName = '%s' AND School.SchoolID = Course.SchoolID;""" % (school_name)
         self.cursor.execute(database_command)
         return [value[0] for value in self.cursor.fetchall()]
+
+    def get_coursenums_by_course(self, course_name):
+        database_command = """SELECT CourseNumber FROM Course WHERE CourseName = '%s';""" % (course_name)
+        self.cursor.execute(database_command)
+        return self.cursor.fetchall()[0]
+
+    def get_coursetimes_by_course(self, course_name):
+        database_command = """SELECT OfferTime1S, OfferTime1E, OfferTime2S, OfferTime2E, OfferTime3S, OfferTime3E, OfferTime4S, OfferTime4E FROM Course WHERE CourseName = '%s';""" % (course_name)
+        self.cursor.execute(database_command)
+        time_list = map(str, [time for time in self.cursor.fetchall()[0] ] )
+        return time_list
+
+    # Public: Insert a new school in the School relation of the MySQL database.
+    #
+    # school_name - The String name of the school to be added.
+    #
+    # Returns nothing.
+    def insert_school(self, school_name):
+        database_command = """INSERT INTO School(SchoolName) VALUES('%s')"""\
+            % (school_name)
+        self.cursor.execute(database_command)
+        try: self.db.commit()
+        except:
+            self.db.rollback()
+            print 'Something went wrong!'
+
+        # CHECK AUTOINCREMENT BUG #
+
+    # Public: Update school_name information in the School relation of the MySQL
+    # database.
+    #
+    # old_school - The original name of the school to be updated.
+    # new_school - The new name to replace the old name in the update.
+    #
+    # Returns nothing.
+    def update_school(self, old_school, new_school):
+        pass
+
+    # Public: Delete a school from the MySQL database.
+    #
+    # school - The name of the school to be deleted.
+    #
+    # Returns nothing.
+    def delete_school(self, school):
+        database_command = """DELETE FROM School WHERE SchoolName = '%s';"""\
+            % (school)
+        self.cursor.execute(database_command)
+        try: self.db.commit()
+        except:
+            self.db.rollback()
+            print 'Something went wrong!'
+
+        # CHECK AUTOINCREMENT BUG #
 
     # Internal: Output the suite of methods bound to the Databaser object. This
     # method is intended to be used to pass these function handles to the
@@ -81,9 +134,15 @@ class Databaser(object):
     #
     # Returns a Tuple of bound method handles.
     def render_functions(self):
-        return self.get_schools, self.get_courses_by_school
+        return (self.get_schools,
+                self.get_coursenames_by_school,
+                self.get_coursenums_by_course,
+                self.insert_school,
+                self.update_school,
+                self.delete_school)
 
 if __name__ == '__main__':
     db = Databaser()
-    print db.get_schools()
+    times = db.get_coursetimes_by_course('Software Systems')
+    print times
     
