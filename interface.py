@@ -45,6 +45,13 @@ class Interface( Gui ):
         # correct record to update.
         self.school_original = None
         self.course_original = None
+        
+        
+        # These attributes are used to store the primary keys of a school and course
+        # when they are to be updated. This allows the course or school to be
+        # specified using a unique primary key, rather than the name.
+        self.update_school_id = None
+        self.update_course_id = None
 
         # This attribute stores the name of school when a user edits courses for
         # that school. It's necessary to store this attribute so that when the
@@ -58,9 +65,15 @@ class Interface( Gui ):
         self.load_schools = functions[0]
         self.load_courses = functions[1]
         self.load_coursenum = functions[2]
-        self.insert_school = functions[3]
-        self.update_school = functions[4]
-        self.delete_school = functions[5]
+        self.load_coursetimes = functions[3]
+        self.insert_school = functions[4]
+        self.insert_course = functions[5]
+        self.update_school = functions[6]
+        self.update_course = functions[7]
+        self.delete_school = functions[8]
+        self.delete_course = functions[9]
+        self.get_school_id = functions[10]
+        self.get_course_id = functions[11]
         
         self.gr( cols = 2 )
         self.tc_button = self.bu( text = 'Time Check',
@@ -187,6 +200,7 @@ class Interface( Gui ):
         def edit_school_info():
             school_entry = self.school_widglist['school_name_entry']
             self.school_original = self.school_widglist['schoolbox'].get(ACTIVE)
+            self.update_school_id = self.get_school_id(self.school_original)
             school_entry.config(state = NORMAL)
             school_entry.delete(0, END)
             school_entry.insert(0, self.school_original)
@@ -205,11 +219,11 @@ class Interface( Gui ):
                 return
             school_entry.config(state = "readonly")
             if self.school_original != None:
-                self.update_school(self.school_original, school)
+                self.update_school(self.update_school_id, school)
                 self.school_original = None
             else:
                 self.insert_school(school)
-            populate_courses()
+            populate_schools()
 
         # Internal: Remove the course selected in the listbox from the MySQL
         # database.
@@ -218,7 +232,7 @@ class Interface( Gui ):
         def remove_school():
             school = self.school_widglist['schoolbox'].get(ACTIVE)
             self.delete_school(school)
-            populate_courses()
+            populate_schools()
 
         # Internal: Adds the courses from the MySQL database to the listbox in the
         # Python interface.
@@ -310,14 +324,28 @@ class Interface( Gui ):
         def add_course():
             # Should set the forms to NORMAL, editable versions, and clear them.
             self.course_original = None
-            courseno_entry = self.course_widglist['courseno_entry']
-            coursename_entry = self.course_widglist['coursename_entry']
+            widglist = self.course_widglist # ALIAS
+            courseno_entry = widglist['courseno_entry'] # ALIAS
+            coursename_entry = widglist['coursename_entry'] # ALIAS
             courseno_entry.config(state = NORMAL)
             coursename_entry.config(state = NORMAL)
             courseno_entry.delete(0, END)
             coursename_entry.delete(0, END)
             courseno_entry.insert(0, 'Course Number')
             coursename_entry.insert(0, 'Name Of Course')
+            for i in range(1, 5):
+                s = str(i)
+                widglist['day_box_' + s].delete(0, END)
+                widglist['day_box_' + s].insert(0, '--')
+                widglist['starthr_' + s].delete(0, END)
+                widglist['starthr_' + s].insert(0, '--')
+                widglist['startmin_' + s].delete(0, END)
+                widglist['startmin_' + s].insert(0, '--')
+                widglist['endhr_' + s].delete(0, END)
+                widglist['endhr_' + s].insert(0, '--')
+                widglist['endmin_' + s].delete(0, END)
+                widglist['endmin_' + s].insert(0, '--')
+
             
         # Internal: Allows a user to edit a course's information, to eventually be
         # added to the database. This method should set all the forms to editable
@@ -327,18 +355,37 @@ class Interface( Gui ):
         #
         # Returns nothing.
         def edit_course_info():
-            # Should set the forms to NORMAL, editable versions, and populate them
-            # with the information of the course selected for editing.
-            self.course_original = self.course_widglist['coursebox'].get(ACTIVE)
-            courseno_entry = self.course_widglist['courseno_entry']
-            coursename_entry = self.course_widglist['coursename_entry']
+            widglist = self.course_widglist # ALIAS
+            self.course_original = widglist['coursebox'].get(ACTIVE)
+            self.update_course_id = self.get_course_id(self.course_original)
+            courseno_entry = widglist['courseno_entry'] # ALIAS
+            coursename_entry = widglist['coursename_entry'] # ALIAS
             courseno_entry.config(state = NORMAL)
             coursename_entry.config(state = NORMAL)
             courseno_entry.delete(0, END)
             coursename_entry.delete(0, END)
             courseno_entry.insert(0, self.load_coursenum(self.course_original) )
             coursename_entry.insert(0, self.course_original)
-            
+            times = self.load_coursetimes(self.course_original)
+            for i in range(1, 5):
+                s = str(i)
+                # times[i] --> Tuple containing the day and times of offering 'i'.
+                # times[i][0] --> String day of offering 'i'.
+                # times[i][1] --> String start hour of offering 'i'.
+                # times[i][2] --> String start minute of offering 'i'.
+                # times[i][3] --> String end hour of offering 'i'.
+                # times[i][4] --> String end minute of offering 'i'.
+                widglist['day_box' + s].delete(0, END)
+                widglist['day_box_' + s].insert(0, times[i][0])
+                widglist['starthr_' + s].delete(0, END)
+                widglist['starthr_' + s].insert(0, times[i][1])
+                widglist['startmin_' + s].delete(0, END)
+                widglist['startmin_' + s].insert(0, times[i][2])
+                widglist['endhr_' + s].delete(0, END)
+                widglist['endhr_' + s].insert(0, times[i][3])
+                widglist['endmin_' + s].delete(0, END)
+                widglist['endmin_' + s].insert(0, times[i][4])
+
 
         # Internal: Commits the information in the entry forms to the Course relation
         # of the MySQL database. If the information is for a new course, a course
@@ -351,6 +398,20 @@ class Interface( Gui ):
             coursename_entry = self.course_widglist['coursename_entry']
             courseno_entry.config(state = "readonly")
             coursename_entry.config(state = "readonly")
+            populate_courses(self.course_edit_school)
+            
+            # NOT DONE YET #############################################
+
+            
+        # Internal: Deletes the course selected from the listbox from the MySQL
+        # database.
+        #
+        # Returns nothing.
+        def remove_course():
+            del_course = self.course_widglist['coursebox'].get(ACTIVE)
+            self.delete_course(del_course)
+            populate_course(self.course_edit_school)
+
         
         # Internal: Gets the courses for the specified school and adds them to the
         # course listbox.
