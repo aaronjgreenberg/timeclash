@@ -370,21 +370,23 @@ class Interface( Gui ):
             for i in range(1, 5):
                 s = str(i)
                 # times[i] --> Tuple containing the day and times of offering 'i'.
+                #              (We use i - 1 b/c the tuple is zero-indexed, but the
+                #               range 1, 2, 3, 4.)
                 # times[i][0] --> String day of offering 'i'.
                 # times[i][1] --> String start hour of offering 'i'.
                 # times[i][2] --> String start minute of offering 'i'.
                 # times[i][3] --> String end hour of offering 'i'.
                 # times[i][4] --> String end minute of offering 'i'.
-                widglist['day_box' + s].delete(0, END)
-                widglist['day_box_' + s].insert(0, times[i][0])
+                widglist['day_box_' + s].delete(0, END)
+                widglist['day_box_' + s].insert(0, times[i - 1][0])
                 widglist['starthr_' + s].delete(0, END)
-                widglist['starthr_' + s].insert(0, times[i][1])
+                widglist['starthr_' + s].insert(0, times[i - 1][1])
                 widglist['startmin_' + s].delete(0, END)
-                widglist['startmin_' + s].insert(0, times[i][2])
+                widglist['startmin_' + s].insert(0, times[i - 1][2])
                 widglist['endhr_' + s].delete(0, END)
-                widglist['endhr_' + s].insert(0, times[i][3])
+                widglist['endhr_' + s].insert(0, times[i - 1][3])
                 widglist['endmin_' + s].delete(0, END)
-                widglist['endmin_' + s].insert(0, times[i][4])
+                widglist['endmin_' + s].insert(0, times[i - 1][4])
 
 
         # Internal: Commits the information in the entry forms to the Course relation
@@ -398,10 +400,23 @@ class Interface( Gui ):
             coursename_entry = self.course_widglist['coursename_entry']
             courseno_entry.config(state = "readonly")
             coursename_entry.config(state = "readonly")
+            course_name = coursename_entry.get()
+            course_number = courseno_entry.get()
+            offer_times = render_times()
+            school_id = self.get_school_id(self.course_edit_school)
+            if course_name == 'Name Of Course':
+                return
+            if course_number == 'Course Number':
+                return
+            if self.course_original != None:
+                self.update_course(self.update_course_id, school_id, course_name,
+                                   course_number, *offer_times)
+                self.course_original = None
+            else:
+                self.insert_course(school_id, course_name, course_number,
+                                   *offer_times)
             populate_courses(self.course_edit_school)
             
-            # NOT DONE YET #############################################
-
             
         # Internal: Deletes the course selected from the listbox from the MySQL
         # database.
@@ -436,7 +451,7 @@ class Interface( Gui ):
             for i in range(1, 5):
                 s = str(i)
                 day = day_converter[widglist['day_box_' + s].get()]
-                date = '1000-01-' + day
+                date = "'1000-01-%s" % (day)
                 starthr = widglist['starthr_' + s].get()
                 startmin = widglist['startmin_' + s].get()
                 endhr = widglist['endhr_' + s].get()
@@ -458,11 +473,10 @@ class Interface( Gui ):
                                 endhr = '0' + endhr
                     if len(endmin) == 1:
                         endmin = '0' + endmin
-                    start_time = '%s:%s:00' % (starthr, startmin)
-                    end_time = '%s:%s:00' % (endhr, endmin)
+                    start_time = "%s:%s:00'" % (starthr, startmin)
+                    end_time = "%s:%s:00'" % (endhr, endmin)
                     time_list.append(' '.join( (date, start_time) ) )
                     time_list.append(' '.join( (date, end_time) ) )
-            print time_list
             return time_list
         
         self.course_edit_school = self.school_widglist['schoolbox'].get(ACTIVE)

@@ -151,13 +151,28 @@ class Databaser(object):
         try: self.db.commit()
         except:
             self.db.rollback()
-            print 'Something went wrong!'
+            print 'SOMETHING WENT WRONG!'
 
-        # CHECK AUTOINCREMENT BUG #
 
     # Public: Insert a new course into the Course relation of the MySQL database.
-    def insert_course(self, args = []):
-        pass
+    #
+    # school_id   - The SchoolID attribute in the MySQL database to which the course
+    #               belongs.
+    # course_name - The name of the course being updated.
+    # course_no   - The course number of the course being offered.
+    # offertimeXs - The starting time of the Xth offering of the course.
+    # offertimeXe - The ending time of the Xth offering of the course.
+    #
+    # Returns nothing.
+    def insert_course(self, school_id, course_name, course_no,
+                      offertime1s, offertime1e, offertime2s, offertime2e,
+                      offertime3s, offertime3e, offertime4s, offertime4e):
+        database_command = """INSERT INTO Course(SchoolID, CourseName, CourseNumber, OfferTime1S, OfferTime1E, OfferTime2S, OfferTime2E, OfferTime3S, OfferTime3E, OfferTime4S, OfferTime4E) VALUES (%s, '%s', '%s', %s, %s, %s, %s, %s, %s, %s, %s);""" % (school_id, course_name, course_no, offertime1s, offertime1e, offertime2s, offertime2e, offertime3s, offertime3e, offertime4s, offertime4e)
+        self.cursor.execute(database_command)
+        try: self.db.commit()
+        except:
+            self.db.rollback()
+            print 'SOMETHING WENT WRONG!'
 
 
     # Public: Update school_name information in the School relation of the MySQL
@@ -177,8 +192,25 @@ class Databaser(object):
 
     # Public: Update course information in the Course relation of the MySQL
     # database.
-    def update_course(self, args = []):
-        pass
+    #
+    # course_id   - The primary key CourseID attribute in the MySQL database.
+    # school_id   - The SchoolID attribute in the MySQL database to which the course
+    #               belongs.
+    # course_name - The name of the course being updated.
+    # course_no   - The course number of the course being offered.
+    # offertimeXs - The starting time of the Xth offering of the course.
+    # offertimeXe - The ending time of the Xth offering of the course.
+    #
+    # Returns nothing.
+    def update_course(self, course_id, school_id, course_name, course_no,
+                      offertime1s, offertime1e, offertime2s, offertime2e,
+                      offertime3s, offertime3e, offertime4s, offertime4e):
+        database_command = """UPDATE Course SET SchoolID = %s, CourseName = '%s', CourseNumber = '%s', OfferTime1S = '%s', OfferTime1E = '%s', OfferTime2S = '%s', OfferTime2E = '%s', OfferTime3S = '%s', OfferTime3E = '%s', OfferTime4S = '%s', OfferTime4E = '%s' WHERE CourseID = %s;""" % (school_id, course_name, course_no, offertime1s, offertime1e, offertime2s, offertime2e, offertime3s, offertime3e, offertime4s, offertime4e)
+        self.cursor.execute(database_command)
+        try: self.db.commit()
+        except:
+            self.db.rollback()
+            print 'SOMETHING WENT WRONG!'
 
 
     # Public: Delete a school from the MySQL database.
