@@ -26,8 +26,12 @@ def main(args):
             username = args[2].split('=')[1]
             password = args[1].split('=')[1]
             backend = Databaser(u = username, pw = password)
-    elif len(args) == 2:
-        raise TypeError, 'You passed timeclash.py 1 argument, but it requires 0 or 2.'
+        else:
+            err = 'The arguments you passed are not valid!'
+            raise TypeError, err
+    elif len(args) == 2 or len(args) > 3:
+        err = 'You passed timeclash.py %s argument(s), but it requires 0 or 2.'
+        raise TypeError, err % (len(args) - 1)
     else:
         backend = Databaser()
     methods = backend.render_functions()
