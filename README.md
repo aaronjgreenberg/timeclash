@@ -44,6 +44,11 @@ If you changed the default username or password, run this:
 	
 	shell> python timeclash.py --user='new_username' --pw='new_password'
 
+## TO DO
+
+* Write a better conflict-checking algorithm that can tell you exactly
+  which courses are causing the problems.
+
 ## About
 
 I originally started building this application as my final project for
