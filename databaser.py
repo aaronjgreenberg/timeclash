@@ -8,8 +8,8 @@ update the database of schools and courses.
 
 TODO
 ----
-* Write update_course
-* Write insert_course
+* Change the initializer so that the user can specify the user and password from
+  the command line.
 
 CREATED
 -------

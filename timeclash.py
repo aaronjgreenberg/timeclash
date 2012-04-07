@@ -8,7 +8,7 @@ interface and the back-end, which interfaces with the MySQL database.
 
 TODO
 ----
-Find a classier way to add the functions from the backend to the front end.
+* Make it so the user can specify the user and password from the command line.
 
 CREATED
 -------

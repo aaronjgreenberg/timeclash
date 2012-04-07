@@ -18,6 +18,7 @@ When: March 2012
 """
 
 from Gui import *
+import timecheck
 
 # Public: Methods and classes used to create a graphical user Interface to access,
 # update, and query a TimeClash database of courses and schools. All methods are
@@ -45,7 +46,6 @@ class Interface( Gui ):
         # correct record to update.
         self.school_original = None
         self.course_original = None
-        
         
         # These attributes are used to store the primary keys of a school and course
         # when they are to be updated. This allows the course or school to be
@@ -91,6 +91,7 @@ class Interface( Gui ):
 
         self.timecheck()
 
+
     # Public: Create the widgets that allow a user to choose schools and courses
     # to see if they conflict.
     #
@@ -110,11 +111,13 @@ class Interface( Gui ):
             for item in self.load_courses(school):
                 self.tc_widglist['coursebox'].insert(END, item)
 
+
         # Internal: Add the selected course from the coursebox to the listbox
         # of selected courses for checking times.
         #
         # Returns nothing.
         def select_course():
+            self.tc_widglist['selected_box'].config(bg = '#DEDEDE')
             course = self.tc_widglist['coursebox'].get(ACTIVE)
             if course == '':
                 return
@@ -123,12 +126,15 @@ class Interface( Gui ):
             else:
                 self.tc_widglist['selected_box'].insert(END, course)
 
+
         # Internal: Remove the selected course from the listbox of courses to
         # time check.
         #
         # Returns nothing.
         def remove_course():
+            self.tc_widglist['selected_box'].config(bg = '#DEDEDE')
             self.tc_widglist['selected_box'].delete(ACTIVE)
+
 
         self.kill_widgets( self.school_widglist, self.course_widglist )
         self.school_widglist = {}
@@ -175,7 +181,27 @@ class Interface( Gui ):
         self.tc_widglist[ 'check_button' ] = self.bu( font = ( 'fixedsys', 18 ),
                                                       width = 18,
                                                       text = 'Check Time',
-                                                      pady = 8 )
+                                                      pady = 8,
+                                                      command = self.check_conflicts)
+
+    # Internal: Check the selected courses for time conflicts. Alerts the user
+    # if there is a conflict.
+    #
+    # Returns nothing.
+    def check_conflicts(self):
+        courses = []
+        course_names = self.tc_widglist['selected_box'].get(0, END)
+        for i in range(len(course_names)):
+            coursename = course_names[i]
+            coursetimes = self.load_coursetimes(coursename)
+            course = timecheck.Course(coursename, coursetimes)
+            courses.append(course)
+        if timecheck.timecheck(courses):
+            self.tc_widglist['selected_box'].config(bg = '#FF0000')
+        else:
+            self.tc_widglist['selected_box'].config(bg = '#00FF00')
+            
+
 
     # Public: Create the widgets that allow a user to edit the list of schools.
     #
