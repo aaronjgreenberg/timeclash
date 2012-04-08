@@ -260,6 +260,10 @@ class Gui(Tk):
     def lb(self, *args, **options):
         return self.widget(Listbox, *args, **options)
 
+    # spinbox
+    def sp(self, *args, **options):
+        return self.widget(Spinbox, *args, **options)
+
     # button
     def bu(self, *args, **options):
         return self.widget(Button, *args, **options)
