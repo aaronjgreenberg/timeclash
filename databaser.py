@@ -222,8 +222,6 @@ class Databaser(object):
             self.db.rollback()
             print 'SOMETHING WENT WRONG!'
 
-        # CHECK AUTOINCREMENT BUG #
-
 
     # Public: Delete a course from the MySQL database.
     #
