@@ -48,6 +48,12 @@ If you changed the default username or password, run this:
 
 * Write a better conflict-checking algorithm that can tell you exactly
   which courses are causing the problems.
+* Change the interface so that users can select which specific offering
+  they want to use in their schedule.
+* Change the interface so that users can dynamically change the number
+  of offerings a course has.
+    * Is this possible with MySQL? Might need to think of a clever way
+      to implement.
 
 ## About
 
