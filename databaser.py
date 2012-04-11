@@ -200,7 +200,7 @@ class Databaser(object):
     def update_course(self, course_id, school_id, course_name, course_no,
                       offertime1s, offertime1e, offertime2s, offertime2e,
                       offertime3s, offertime3e, offertime4s, offertime4e):
-        database_command = """UPDATE Course SET SchoolID = %s, CourseName = '%s', CourseNumber = '%s', OfferTime1S = '%s', OfferTime1E = '%s', OfferTime2S = '%s', OfferTime2E = '%s', OfferTime3S = '%s', OfferTime3E = '%s', OfferTime4S = '%s', OfferTime4E = '%s' WHERE CourseID = %s;""" % (school_id, course_name, course_no, offertime1s, offertime1e, offertime2s, offertime2e, offertime3s, offertime3e, offertime4s, offertime4e)
+        database_command = """UPDATE Course SET SchoolID = %s, CourseName = '%s', CourseNumber = '%s', OfferTime1S = %s, OfferTime1E = %s, OfferTime2S = %s, OfferTime2E = %s, OfferTime3S = %s, OfferTime3E = %s, OfferTime4S = %s, OfferTime4E = %s WHERE CourseID = %s;""" % (school_id, course_name, course_no, offertime1s, offertime1e, offertime2s, offertime2e, offertime3s, offertime3e, offertime4s, offertime4e, course_id)
         self.cursor.execute(database_command)
         try: self.db.commit()
         except:

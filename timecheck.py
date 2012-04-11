@@ -14,6 +14,7 @@ When: March 2012
 """
 
 import datetime
+import times_mergesort
 
 # Public: A tiny module that represents an offering of a course from the MySQL
 # TimeClash database.
@@ -95,6 +96,36 @@ def timecheck(courses):
                             offering.end_time == offering_selected.end_time:
                         return True
     return False
+
+
+# Public: A second way to check whether there is a conflict in the offering times of
+# the proposed courses.
+#
+# courses - A list of Course objects.
+#
+# Returns Boolean True if a conflict is found, Boolean false if not.
+def timecheck_2(courses):
+    offerings = []
+    for course in courses:
+        offerings.extend(course.offerings)
+    offerings = times_mergesort.sort(offerings)
+    for offering in offerings:
+        print offering
+    for i in range(len(offerings) - 1):
+        if offerings[i].day != offerings[i + 1].day:
+            continue
+        else:
+            if offerings[i + 1].start_time < offerings[i].end_time\
+                    < offerings[i + 1].end_time:
+                return True
+            if offerings[i + 1].start_time == offerings[i].start_time and\
+                    offerings[i + 1].end_time == offerings[i].end_time:
+                return True
+    return False
+
+    
+    
+    
             
             
             
